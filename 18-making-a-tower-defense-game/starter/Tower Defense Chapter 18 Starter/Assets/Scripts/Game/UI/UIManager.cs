@@ -1,16 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    
+    public static UIManager Instance;
+    
+    public GameObject addTowerWindow;
+    
+    public Text txtGold;
+    public Text txtWave;
+    public Text txtEscapedEnemies;
+
+    // Use this for initialization
+    //1
+    void Awake()
+    {
+        Instance = this;
+    }
+    //2
+    private void UpdateTopBar()
+    {
+        txtGold.text = GameManager.Instance.gold.ToString();
+        txtWave.text = "Wave " + GameManager.Instance.waveNumber + " / " +
+        WaveManager.Instance.enemyWaves.Count;
+        txtEscapedEnemies.text = "Escaped Enemies " +
+        GameManager.Instance.escapedEnemies + " / " +
+        GameManager.Instance.maxAllowedEscapedEnemies;
+    }
+    //3
+    public void ShowAddTowerWindow(GameObject towerSlot)
+    {
+        addTowerWindow.SetActive(true);
+        addTowerWindow.GetComponent<AddTowerWindow>().towerSlotToAddTowerTo = towerSlot;
+        UtilityMethods.MoveUiElementToWorldPosition(addTowerWindow.GetComponent<RectTransform>(),
+            towerSlot.transform.position);
+    }
+
+    // Update is called once per frame
+    void Update () {
+        UpdateTopBar();
+    }
 }
