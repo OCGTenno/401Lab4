@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class FollowingProjectile : MonoBehaviour {
 
-    
+    // Sets the enemy the projectile needs to follow and the projectile speed
+    // Checks if the enemys hit or destroyed and if so destroy the projectile
     public Enemy enemyToFollow;
     
     public float moveSpeed = 15;
