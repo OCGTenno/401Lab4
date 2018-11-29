@@ -37,6 +37,7 @@ public class WaveManager : MonoBehaviour {
                 activeWave = enemyWave;
                 activatedWaves.Add(enemyWave);
                 spawnCounter = 0f;
+                GameManager.Instance.waveNumber++;
                 //6
                 break;
             }
@@ -52,24 +53,19 @@ public class WaveManager : MonoBehaviour {
             if (spawnCounter >= activeWave.timeBetweenSpawnsInSeconds)
             {
                 spawnCounter = 0f;
-                //3
                 if (activeWave.listOfEnemies.Count != 0)
                 {
-                    //4
                     GameObject enemy = (GameObject)Instantiate(activeWave.listOfEnemies[0], WaypointManager.Instance.
                            GetSpawnPosition(activeWave.pathIndex), Quaternion.identity);
-                    //5
                     enemy.GetComponent<Enemy>().pathIndex = activeWave.pathIndex;
-                    //6
                     activeWave.listOfEnemies.RemoveAt(0);
                 }
                 else
                 {
-                    //7
                     activeWave = null;
-                    //8
                     if (activatedWaves.Count == enemyWaves.Count)
                     {
+                        GameManager.Instance.enemySpawningOver = true;
                         // All waves are over
                     }
                 }
