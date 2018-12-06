@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour {
     public static UIManager Instance;
     
     public GameObject addTowerWindow;
-    
+    public GameObject towerInfoWindow;
+
     public Text txtGold;
     public Text txtWave;
     public Text txtEscapedEnemies;
@@ -42,5 +43,13 @@ public class UIManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         UpdateTopBar();
+    }
+
+    public void ShowTowerInfoWindow(Tower tower)
+    {
+        towerInfoWindow.GetComponent<TowerInfoWindow>().tower = tower;
+        towerInfoWindow.SetActive(true);
+        UtilityMethods.MoveUiElementToWorldPosition(towerInfoWindow.
+        GetComponent<RectTransform>(), tower.transform.position);
     }
 }
