@@ -8,12 +8,23 @@ public class UIManager : MonoBehaviour {
     
     public static UIManager Instance;
     
-    public GameObject addTowerWindow;
-    public GameObject towerInfoWindow;
+    public GameObject addTowerWindow;       // White tower slot window 
+
+    public GameObject towerInfoWindow;     
+
+    public GameObject winGameWindow;        // Win lose windows plus background
+    public GameObject loseGameWindow;
+    public GameObject blackBackground;
+
+    public GameObject centerWindow;         // Center for start of wave and Damage for enemy escaped
+    public GameObject damageCanvas;
 
     public Text txtGold;
     public Text txtWave;
     public Text txtEscapedEnemies;
+
+    public Transform enemyHealthBars;
+    public GameObject enemyHealthBarPrefab;
 
     // Use this for initialization
     //1
@@ -51,5 +62,60 @@ public class UIManager : MonoBehaviour {
         towerInfoWindow.SetActive(true);
         UtilityMethods.MoveUiElementToWorldPosition(towerInfoWindow.
         GetComponent<RectTransform>(), tower.transform.position);
+    }
+
+    // References to the Windows and Background
+    public void ShowWinScreen()
+    {
+        blackBackground.SetActive(true);
+        winGameWindow.SetActive(true);
+    }
+    public void ShowLoseScreen()
+    {
+        blackBackground.SetActive(true);
+        loseGameWindow.SetActive(true);
+    }
+
+    // Create the Health Bar above enemy and Child it to the object
+    public void CreateHealthBarForEnemy(Enemy enemy)
+    {
+        
+        GameObject healthBar = Instantiate(enemyHealthBarPrefab);
+        healthBar.transform.SetParent(enemyHealthBars, false);
+        healthBar.GetComponent<EnemyHealthBar>().enemy = enemy;
+    }
+
+    public void ShowCenterWindow(string text)
+    {
+        centerWindow.transform.Find("TxtWave").GetComponent<Text>().
+        text = text;
+        StartCoroutine(EnableAndDisableCenterWindow());
+    }
+
+    private IEnumerator EnableAndDisableCenterWindow()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(.4f);
+            centerWindow.SetActive(true);
+            yield return new WaitForSeconds(.4f);
+            centerWindow.SetActive(false);
+        }
+    }
+
+    public void ShowDamage()
+    {
+        StartCoroutine(DoDamageAnimation());
+    }
+
+    private IEnumerator DoDamageAnimation()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(.1f);
+            damageCanvas.SetActive(true);
+            yield return new WaitForSeconds(.1f);
+            damageCanvas.SetActive(false);
+        }
     }
 }

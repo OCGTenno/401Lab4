@@ -26,19 +26,19 @@ public class WaveManager : MonoBehaviour {
     }
     private void SearchForWave()
     {
-        //3
+        // Check For the incoming wave, add an enemy wave if none currently there. Update wave number and display start of wave screen
         foreach (EnemyWave enemyWave in enemyWaves)
         {
             //4
-            if (!activatedWaves.Contains(enemyWave)
-            && enemyWave.startSpawnTimeInSeconds <= elapsedTime)
+            if (!activatedWaves.Contains(enemyWave) && enemyWave.startSpawnTimeInSeconds <= elapsedTime)
             {
                 //5
                 activeWave = enemyWave;
                 activatedWaves.Add(enemyWave);
                 spawnCounter = 0f;
                 GameManager.Instance.waveNumber++;
-                //6
+                // 
+                UIManager.Instance.ShowCenterWindow("Wave " + GameManager.Instance.waveNumber);
                 break;
             }
         }

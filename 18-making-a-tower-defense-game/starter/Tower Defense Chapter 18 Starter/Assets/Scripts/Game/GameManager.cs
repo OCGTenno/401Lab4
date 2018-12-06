@@ -49,11 +49,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //5
+    // Play audio clip, show win screen
     private void OnGameWin()
     {
         AudioSource.PlayClipAtPoint(gameWinSound, Camera.main.transform.position);
         gameOver = true;
+        UIManager.Instance.ShowWinScreen();
     }
     //6
     public void QuitToTitleScreen()
@@ -65,15 +66,17 @@ public class GameManager : MonoBehaviour
     public void OnEnemyEscape()
     {
         escapedEnemies++;
+        UIManager.Instance.ShowDamage();
 
         if (escapedEnemies == maxAllowedEscapedEnemies)
         {
             // Too many enemies escaped, you lose the game
             OnGameLose();
+
         }
     }
 
-    //2
+    // Play sound clip Destroy enemies and stop more from spawning and display Lose Screen
     private void OnGameLose()
     {
         gameOver = true;
@@ -81,6 +84,7 @@ public class GameManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(gameLoseSound, Camera.main.transform.position);
         EnemyManager.Instance.DestroyAllEnemies();
         WaveManager.Instance.StopSpawning();
+        UIManager.Instance.ShowLoseScreen();
     }
 
     //3
